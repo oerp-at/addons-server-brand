@@ -3,8 +3,7 @@
 # Copyright 2021-22 Sodexis
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from datetime import datetime
-
+from odoo import fields
 from odoo.tests import common, tagged
 from odoo.tools.urls import urljoin
 
@@ -44,7 +43,7 @@ class TestMailDebrandDigest(common.TransactionCase):
                 "company": self.env.user.company_id,
                 "user": self.env.user,
                 "tips_count": 1,
-                "formatted_date": datetime.today().strftime("%B %d, %Y"),
+                "formatted_date": fields.Date.today().strftime("%B %d, %Y"),
                 "display_mobile_banner": True,
                 "kpi_data": self.mail_digest_id._compute_kpis(
                     self.env.user.company_id, self.env.user
