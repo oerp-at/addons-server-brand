@@ -30,7 +30,7 @@ class TestMailDebrandDigest(common.TransactionCase):
             self.assertEqual(True, True)
             return
 
-        web_base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+        web_base_url = self.env["ir.config_parameter"].sudo().get_str("web.base.url")
         rendered_body = self.env["mail.render.mixin"]._render_template(
             "digest.digest_mail_main",
             "digest.digest",
