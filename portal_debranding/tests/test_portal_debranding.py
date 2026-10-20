@@ -26,3 +26,20 @@ class TestPortalOdooDebranding(common.TransactionCase):
         )
         self.assertNotIn("Powered by", html)
         self.assertNotIn("odoo.com?utm_medium=portal", html)
+
+    def test_portal_record_sidebar_keeps_title(self):
+        """Only the branding block is hidden, not the title block."""
+        html = self.env["ir.ui.view"]._render_template(
+            "portal.portal_record_sidebar",
+            values={"classes": "", "title": "Sidebar Title"},
+        )
+        self.assertIn("Sidebar Title", html)
+
+    def test_login_no_powered_by(self):
+        """The 'Powered by Odoo' link in the login footer must be removed."""
+        # Rendering the full login layout needs a request, check the arch instead
+        arch = self.env.ref("web.login_layout")._get_combined_arch()
+        links = arch.xpath("//a[contains(@href, 'utm_medium=auth')]")
+        self.assertTrue(links)
+        for link in links:
+            self.assertEqual(link.get("t-if"), "False")
